@@ -10,6 +10,7 @@ describe( "Class Notify", function() {
 	let Escalation;
 	let Notify;
 	let Hormone;
+	let Backend;
 
 	before( ( done ) => {
 
@@ -25,6 +26,7 @@ describe( "Class Notify", function() {
 		Escalation = require( './mocks/escalation.js' );
 		mockery.registerMock( './escalation.js', Escalation );
 		Hormone = require( './mocks/hormone.js' );
+		Backend = require( './mocks/backend.js' );
 
 		// Require all librarys required for tests
 		Notify = require( '../lib/notify.js' );
@@ -109,7 +111,7 @@ describe( "Class Notify", function() {
 				escalationLevels: [ { delay: 0, recipients: [] } ],
 				escalateHormoneExpiration: true,
 				escalateHormoneError: true,
-				backend: true
+				backend: { 'backend': {} }
 			} );
 		} catch( e ) { /*console.log( e );*/ done(); }
 	} );
@@ -122,7 +124,7 @@ describe( "Class Notify", function() {
 			escalationLevels: [ { delay: 0, recipients: [] } ],
 			escalateHormoneExpiration: false,
 			escalateHormoneError: true,
-			backend: {}
+			backends: { 'backend' : new Backend() }
 		} );
 
 		n.on( 'escalate', ( name, hormone, instance ) => {
@@ -144,7 +146,7 @@ describe( "Class Notify", function() {
 			escalationLevels: [ { delay: 0, recipients: [] } ],
 			escalateHormoneExpiration: false,
 			escalateHormoneError: false,
-			backend: {}
+			backends: { 'backend' : new Backend() }
 		} );
 
 		n.on( 'escalate', ( name, hormone, instance ) => {
@@ -166,7 +168,7 @@ describe( "Class Notify", function() {
 			escalationLevels: [ { delay: 0, recipients: [] } ],
 			escalateHormoneExpiration: true,
 			escalateHormoneError: false,
-			backend: {}
+			backends: { 'backend' : new Backend() }
 		} );
 
 		n.on( 'escalate', ( name, hormone, instance ) => {
@@ -188,7 +190,7 @@ describe( "Class Notify", function() {
 			escalationLevels: [ { delay: 0, recipients: [] } ],
 			escalateHormoneExpiration: false,
 			escalateHormoneError: false,
-			backend: {}
+			backends: { 'backend' : new Backend() }
 		} );
 
 		n.on( 'escalate', ( name, hormone, instance ) => {
@@ -211,7 +213,7 @@ describe( "Class Notify", function() {
 			escalationLevels: [ { delay: 0, recipients: [] } ],
 			escalateHormoneExpiration: true,
 			escalateHormoneError: true,
-			backend: {}
+			backends: { 'backend' : new Backend() }
 		} );
 
 		n.on( 'deescalate', ( name ) => {
@@ -246,7 +248,7 @@ describe( "Class Notify", function() {
 			escalationLevels: [ { delay: 0, recipients: [] } ],
 			escalateHormoneExpiration: true,
 			escalateHormoneError: false,
-			backend: {}
+			backends: { 'backend' : new Backend() }
 		} );
 
 		n.on( 'deescalate', ( name ) => {
