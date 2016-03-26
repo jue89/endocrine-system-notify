@@ -93,7 +93,7 @@ describe( "Class Notify", function() {
 		} catch( e ) { /*console.log( e );*/ done(); }
 	} );
 
-	it( "shouldreject due to wrong escalateHormoneError", ( done ) => {
+	it( "should reject due to wrong escalateHormoneError", ( done ) => {
 		try {
 			new Notify( {
 				receptor: new ESedge.Classes.Sink(),
@@ -104,7 +104,7 @@ describe( "Class Notify", function() {
 		} catch( e ) { /*console.log( e );*/ done(); }
 	} );
 
-	it( "should due to wrong backend", ( done ) => {
+	it( "should reject due to wrong backend", ( done ) => {
 		try {
 			new Notify( {
 				receptor: new ESedge.Classes.Sink(),
@@ -287,6 +287,52 @@ describe( "Class Notify", function() {
 
 		r.emit( 'hormoneExpiration', 'test', h );
 
+	} );
+
+	it( "should emit an error if escalation was not successful", ( done ) => {
+		let h = new Hormone( true, 1 );
+		let r = new ESedge.Classes.Sink();
+		let n = new Notify( {
+			receptor: r,
+			escalationLevels: [ { delay: 0, recipients: [] } ],
+			escalateHormoneExpiration: false,
+			escalateHormoneError: true,
+			backends: { 'backend' : new Backend() }
+		} );
+
+		n.on( 'error', ( e ) => {
+			try {
+				assert.strictEqual( e.message, 'ES FAIL' );
+				done();
+			} catch( e ) {
+				done( e );
+			}
+		} );
+
+		r.emit( 'hormoneError', 'escalation-fail', h );
+	} );
+
+	it( "should forward errors from escalation instance", ( done ) => {
+		let h = new Hormone( true, 1 );
+		let r = new ESedge.Classes.Sink();
+		let n = new Notify( {
+			receptor: r,
+			escalationLevels: [ { delay: 0, recipients: [] } ],
+			escalateHormoneExpiration: false,
+			escalateHormoneError: true,
+			backends: { 'backend' : new Backend() }
+		} );
+
+		n.on( 'error', ( e ) => {
+			try {
+				assert.strictEqual( e.message, 'ES FAIL2' );
+				done();
+			} catch( e ) {
+				done( e );
+			}
+		} );
+
+		r.emit( 'hormoneError', 'escalation-fail2', h );
 	} );
 
 } );
