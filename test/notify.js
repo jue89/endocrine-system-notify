@@ -266,4 +266,27 @@ describe( "Class Notify", function() {
 
 	} );
 
+	it( "should deescalate upon undefined hormone", ( done ) => {
+		let h = new Hormone( false, 0 );
+		let r = new ESedge.Classes.Sink();
+		let n = new Notify( {
+			receptor: r,
+			escalationLevels: [ { delay: 0, recipients: [] } ],
+			escalateHormoneExpiration: true,
+			escalateHormoneError: false,
+			backends: { 'backend' : new Backend() }
+		} );
+
+		n.on( 'escalate', ( name ) => {
+			r.emit( 'undefined', name );
+		} );
+
+		n.on( 'deescalate', ( name ) => {
+			done();
+		} );
+
+		r.emit( 'hormoneExpiration', 'test', h );
+
+	} );
+
 } );
