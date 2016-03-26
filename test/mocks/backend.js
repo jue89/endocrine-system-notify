@@ -8,13 +8,26 @@ class BackendMock extends events.EventEmitter {
 
 		super();
 
+		this.sentErr = [];
+		this.sentAck = [];
+		this.sentRec = [];
+
 	}
 
-	error( recipient, name, hormone ) { }
+	error( recipient, name, hormone ) {
+		this.sentErr.push( { recipient, name, hormone } );
+		this.emit( 'sentErr', recipient, name, hormone );
+	}
 
-	acknowledge( recipient, name, user ) { }
+	acknowledge( recipient, name, user ) {
+		this.sentAck.push( { recipient, name, user } );
+		this.emit( 'sentAck', recipient, name, user );
+	}
 
-	recover( recipient, name ) { }
+	recover( recipient, name ) {
+		this.sentRec.push( { recipient, name } );
+		this.emit( 'sentRec', recipient, name );
+	}
 
 }
 
