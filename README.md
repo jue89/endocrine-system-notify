@@ -43,7 +43,7 @@ Notify( {
 
 ## API
 
-The Endocrine System Notify system can be required as follows. The API description refers to ```Notify```.
+The Notify system can be required as follows. The API description refers to ```Notify```.
 ``` javascript
 const Notify = require( 'es-notify' );
 ```
