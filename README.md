@@ -130,7 +130,7 @@ Will be emitted if an escalation has been deescalated.
 #### Method: shutdown
 
 ``` javascript
-es.shutdown( deescalate );
+notify.shutdown( deescalate );
 ```
 
 Shuts down the notify system. If ```deescalate``` is true, all escalations will be deescalated before shutting down.
