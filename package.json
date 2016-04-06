@@ -17,7 +17,8 @@
   "author": "Jue <me@jue.yt>",
   "license": "MIT",
   "dependencies": {
-    "es-edge": "2.x.x"
+    "es-edge": "2.x.x",
+    "uuid": "^2.0.1"
   },
   "devDependencies": {
     "jshint": "^2.9.1",
