@@ -325,7 +325,7 @@ describe( "Class Escalation", function() {
 			}
 		} );
 
-		e.on( 'deescalate', () => {
+		e.on( 'deescalated', () => {
 			try {
 				assert.strictEqual( be1.sentErr.length, 2 );
 				assert.strictEqual( be1.sentErr[0].recipient.name, "U1" );
