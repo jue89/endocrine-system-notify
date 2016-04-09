@@ -158,6 +158,27 @@ describe( "Class Escalation", function() {
 
 	} );
 
+	it( "should create an escalation and generate a UUID", ( done ) => {
+
+		let be = new Backend();
+
+		let e = new Escalation(
+			{ 'be': be },
+			'test',
+			new Hormone(),
+			[ {
+				delay: 0,
+				recipients: [ ]
+			} ]
+		);
+
+		let reUUIDv4 = new RegExp( "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$" );
+		assert.ok( reUUIDv4.test( e.id ), "ID is no valid UUIDv4" );
+
+		done();
+
+	} );
+
 	it( "should send error messages to users via the defined backend", ( done ) => {
 
 		let be1 = new Backend();
@@ -304,7 +325,7 @@ describe( "Class Escalation", function() {
 			}
 		} );
 
-		e.on( 'deescalate', () => {
+		e.on( 'deescalated', () => {
 			try {
 				assert.strictEqual( be1.sentErr.length, 2 );
 				assert.strictEqual( be1.sentErr[0].recipient.name, "U1" );
