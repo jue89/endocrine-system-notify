@@ -127,7 +127,7 @@ describe( "Class Notify", function() {
 			backends: { 'backend' : new Backend() }
 		} );
 
-		n.on( 'escalate', ( name, hormone, instance ) => {
+		n.on( 'escalate', ( id, name, hormone ) => {
 			try {
 				assert.strictEqual( name, 'test' );
 				assert.deepStrictEqual( hormone, h );
@@ -149,7 +149,7 @@ describe( "Class Notify", function() {
 			backends: { 'backend' : new Backend() }
 		} );
 
-		n.on( 'escalate', ( name, hormone, instance ) => {
+		n.on( 'escalate', ( id, name, hormone ) => {
 			done( new Error( "This should not happen!" ) );
 			done = function() {};
 		} );
@@ -171,7 +171,7 @@ describe( "Class Notify", function() {
 			backends: { 'backend' : new Backend() }
 		} );
 
-		n.on( 'escalate', ( name, hormone, instance ) => {
+		n.on( 'escalate', ( id, name, hormone ) => {
 			try {
 				assert.strictEqual( name, 'test' );
 				assert.deepStrictEqual( hormone, h );
@@ -193,7 +193,7 @@ describe( "Class Notify", function() {
 			backends: { 'backend' : new Backend() }
 		} );
 
-		n.on( 'escalate', ( name, hormone, instance ) => {
+		n.on( 'escalate', ( id, name, hormone ) => {
 			done( new Error( "This should not happen!" ) );
 			done = function() {};
 		} );
@@ -216,7 +216,7 @@ describe( "Class Notify", function() {
 			backends: { 'backend' : new Backend() }
 		} );
 
-		n.on( 'deescalate', ( name ) => {
+		n.on( 'deescalated', ( name ) => {
 			done( new Error( "This should not happen." ) );
 		} );
 
@@ -230,8 +230,8 @@ describe( "Class Notify", function() {
 		}, 40 );
 
 		setTimeout( () => {
-			n.removeAllListeners( 'deescalate' );
-			n.on( 'deescalate', ( name ) => {
+			n.removeAllListeners( 'deescalated' );
+			n.on( 'deescalated', ( name ) => {
 				done();
 			} );
 			r.emit( 'hormoneRecovery', 'test', h3 );
@@ -251,7 +251,7 @@ describe( "Class Notify", function() {
 			backends: { 'backend' : new Backend() }
 		} );
 
-		n.on( 'deescalate', ( name ) => {
+		n.on( 'deescalated', ( name ) => {
 			done();
 		} );
 
@@ -277,11 +277,11 @@ describe( "Class Notify", function() {
 			backends: { 'backend' : new Backend() }
 		} );
 
-		n.on( 'escalate', ( name ) => {
-			r.emit( 'undefined', name );
+		n.on( 'escalate', ( id, name ) => {
+			setImmediate( () => r.emit( 'undefined', name ) );
 		} );
 
-		n.on( 'deescalate', ( name ) => {
+		n.on( 'deescalated', () => {
 			done();
 		} );
 
