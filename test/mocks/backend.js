@@ -14,19 +14,19 @@ class BackendMock extends events.EventEmitter {
 
 	}
 
-	error( recipient, name, hormone ) {
-		this.sentErr.push( { recipient, name, hormone } );
-		this.emit( 'sentErr', recipient, name, hormone );
+	error( recipient, hormone ) {
+		this.sentErr.push( { recipient, name: hormone.name, hormone } );
+		this.emit( 'sentErr', recipient, hormone.name, hormone );
 	}
 
-	acknowledge( recipient, name, user ) {
-		this.sentAck.push( { recipient, name, user } );
-		this.emit( 'sentAck', recipient, name, user );
+	acknowledge( recipient, hormone, user ) {
+		this.sentAck.push( { recipient, name: hormone.name, user } );
+		this.emit( 'sentAck', recipient, hormone.name, user );
 	}
 
-	recover( recipient, name ) {
-		this.sentRec.push( { recipient, name } );
-		this.emit( 'sentRec', recipient, name );
+	recover( recipient, hormone ) {
+		this.sentRec.push( { recipient, name: hormone.name } );
+		this.emit( 'sentRec', recipient, hormone.name );
 	}
 
 }

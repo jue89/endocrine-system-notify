@@ -32,8 +32,7 @@ describe( "Class Escalation", function() {
 		try {
 			new Escalation(
 				{ 'be': new Backend() },
-				'test',
-				new Hormone(),
+				Hormone( 'test' ),
 				true
 			);
 		} catch( e ) { /*console.log( e );*/ done(); }
@@ -43,8 +42,7 @@ describe( "Class Escalation", function() {
 		try {
 			new Escalation(
 				{ 'be': new Backend() },
-				'test',
-				new Hormone(),
+				Hormone( 'test' ),
 				[ {
 					delay: true,
 					recipients: []
@@ -57,8 +55,7 @@ describe( "Class Escalation", function() {
 		try {
 			new Escalation(
 				{ 'be': new Backend() },
-				'escalation-fail',
-				new Hormone(),
+				Hormone( 'test' ),
 				[ {
 					delay: 1,
 					recipients: true
@@ -73,8 +70,7 @@ describe( "Class Escalation", function() {
 
 		let e = new Escalation(
 			{ 'be': be },
-			'test',
-			new Hormone(),
+			Hormone( 'test' ),
 			[ {
 				delay: 0,
 				recipients: [ {
@@ -86,7 +82,7 @@ describe( "Class Escalation", function() {
 			} ]
 		);
 
-		e.on( 'error', ( e ) => {
+		e.on( 'error', ( err, env ) => {
 			try {
 				assert.strictEqual( be.sentErr.length, 1 );
 				done();
@@ -103,8 +99,7 @@ describe( "Class Escalation", function() {
 
 		let e = new Escalation(
 			{ 'be': be },
-			'test',
-			new Hormone(),
+			Hormone( 'test' ),
 			[ {
 				delay: 0,
 				recipients: [ {
@@ -134,8 +129,7 @@ describe( "Class Escalation", function() {
 
 		let e = new Escalation(
 			{ 'be': be },
-			'test',
-			new Hormone(),
+			Hormone( 'test' ),
 			[ {
 				delay: 0,
 				recipients: [ {
@@ -164,8 +158,7 @@ describe( "Class Escalation", function() {
 
 		let e = new Escalation(
 			{ 'be': be },
-			'test',
-			new Hormone(),
+			Hormone( 'test' ),
 			[ {
 				delay: 0,
 				recipients: [ ]
@@ -186,8 +179,7 @@ describe( "Class Escalation", function() {
 
 		let e = new Escalation(
 			{ 'be1': be1, 'be2': be2 },
-			'test',
-			new Hormone(),
+			Hormone( 'test' ),
 			[ {
 				delay: 0,
 				recipients: [ {
@@ -221,8 +213,7 @@ describe( "Class Escalation", function() {
 
 		let e = new Escalation(
 			{ 'be1': be1, 'be2': be2 },
-			'test',
-			new Hormone(),
+			Hormone( 'test' ),
 			[ {
 				delay: 0,
 				recipients: [ {
@@ -253,13 +244,13 @@ describe( "Class Escalation", function() {
 			} ]
 		);
 
-		be2.on( 'sentErr', ( recipient, name, hormone ) => {
+		be2.on( 'sentErr', ( recipient, name ) => {
 			if( recipient.name == "U4" ) {
 				be2.emit( 'ack_' + name, recipient );
 			}
 		} );
 
-		e.on( 'acknowledged', () => {
+		e.on( 'acknowledged', ( env ) => {
 			try {
 				assert.strictEqual( be1.sentErr.length, 2 );
 				assert.strictEqual( be1.sentErr[0].recipient.name, "U1" );
@@ -287,8 +278,7 @@ describe( "Class Escalation", function() {
 
 		let e = new Escalation(
 			{ 'be1': be1, 'be2': be2 },
-			'test',
-			new Hormone(),
+			Hormone( 'test' ),
 			[ {
 				delay: 0,
 				recipients: [ {
